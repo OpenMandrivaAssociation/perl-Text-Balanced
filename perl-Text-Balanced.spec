@@ -1,19 +1,19 @@
 %define upstream_name    Text-Balanced
 %define upstream_version 2.02
 
-Name:       perl-%{upstream_name}
-Version:    %perl_convert_version %{upstream_version}
-Release:    %mkrel 2
+Name:		perl-%{upstream_name}
+Version:	%perl_convert_version %{upstream_version}
+Release:	3
 
-Summary:    Extract balanced-delimiter substrings
-License:    GPL+ or Artistic
-Group:      Development/Perl
-Url:        http://search.cpan.org/dist/%{upstream_name}
-Source0:    http://www.cpan.org/modules/by-module/Text/%{upstream_name}-%{upstream_version}.tar.gz
+Summary:	Extract balanced-delimiter substrings
+License:	GPL+ or Artistic
+Group:		Development/Perl
+Url:		http://search.cpan.org/dist/%{upstream_name}
+Source0:	http://www.cpan.org/modules/by-module/Text/%{upstream_name}-%{upstream_version}.tar.gz
 
-BuildRequires: perl(Test::More)
-BuildArch: noarch
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
+BuildRequires:	perl-devel
+BuildRequires:	perl(Test::More)
+BuildArch:	noarch
 
 %description
 The various 'extract_...' subroutines may be used to extract a delimited
@@ -37,24 +37,29 @@ General behaviour in list contexts
 %setup -q -n %{upstream_name}-%{upstream_version}
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor
-
-%{make}
+perl Makefile.PL INSTALLDIRS=vendor
+%make
 
 %check
-%{make} test
+%make test
 
 %install
-rm -rf %buildroot
 %makeinstall_std
 
-%clean
-rm -rf %buildroot
-
 %files
-%defattr(-,root,root)
 %doc LICENSE README Changes
 %{_mandir}/man3/*
-%perl_vendorlib/*
+%{perl_vendorlib}/*
+
+%changelog
+* Mon Apr 18 2011 Funda Wang <fwang@mandriva.org> 2.20.0-2mdv2011.0
++ Revision: 655230
+- rebuild for updated spec-helper
+
+* Sun Dec 06 2009 Jérôme Quelin <jquelin@mandriva.org> 2.20.0-1mdv2011.0
++ Revision: 474077
+- import perl-Text-Balanced
 
 
+* Sun Dec 06 2009 cpan2dist 2.02-1mdv
+- initial mdv release, generated with cpan2dist
